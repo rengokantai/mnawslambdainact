@@ -21,3 +21,30 @@ def lambda_handler(event,context):
   result = event['value1']+event['value2']
   return result
 ```
+
+data
+```
+{"value1":1,"value2":2}
+```
+
+
+
+Using Lambda to implement a simple logging function
+```js
+exports.handler = (event,context){
+  console.log(event.message);
+  context.done();
+};
+```
+
+```py
+def lambda_handler(event,context):
+  print(event['message'])
+  return
+```
+data
+```
+{ "message":"ok"}
+```
+
+
