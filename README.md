@@ -60,3 +60,15 @@ exports.handler = (event,context,cb)=>{
   cb(null,greet);
 }
 ```
+
+```py
+import json
+def pambda_handler(event,context):
+  json.dumps(event,indent=2);
+  if 'name' in event:
+    name=event['name']
+  else:
+    name='k'
+  greet = 'hello'+name;
+  return greet
+```
