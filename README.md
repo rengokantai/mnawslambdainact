@@ -67,7 +67,7 @@ exports.handler = (event,context,cb)=>{
 
 ```py
 import json
-def pambda_handler(event,context):
+def lambda_handler(event,context):
   json.dumps(event,indent=2);
   if 'name' in event:
     name=event['name']
@@ -76,3 +76,48 @@ def pambda_handler(event,context):
   greet = 'hello'+name;
   return greet
 ```
+
+##3. Your function as a web API
+function:
+```
+exports.handler = (event,context,cb)=>{
+  JSON.stringify(event,null,2);
+  var name='';
+  if('name' in event){
+    name=event['name']
+  }
+  else{
+    name='k';
+  }
+  var greet = 'hello'+name;
+  cb(null,greet);
+}
+```
+create new API
+create new child resource  
+add new method (GET)  
+create integration (GET) ->lambda function  
+method request: add parameter (name)  
+integration request: add
+```
+{ "name": "$input.params('name')" }
+```
+###5. Transforming the response
+select Integration Response  
+expand Body Mapping Templates  
+```
+{ "greet": "$input.path('$')" }
+```
+Click the Test button to actually run a new test and overwrite the result.  
+Now the response body has a fully compliant JSON syntax.  
+
+To change the default behavior for our REST API, using an #if ... #end block. 
+```
+#set($name = $input.params('name'))
+{
+#if($name != "")
+  "name": "$name"
+#end
+}
+```
+
