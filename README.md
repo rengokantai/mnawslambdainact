@@ -54,8 +54,12 @@ data
 exports.handler = (event,context,cb)=>{
   JSON.stringify(event,null,2);
   var name='';
-  if('name' in event){name=event['name']}
-  else{name='k';}
+  if('name' in event){
+    name=event['name']
+  }
+  else{
+    name='k';
+  }
   var greet = 'hello'+name;
   cb(null,greet);
 }
