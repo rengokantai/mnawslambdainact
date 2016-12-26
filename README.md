@@ -121,3 +121,19 @@ To change the default behavior for our REST API, using an #if ... #end block.
 }
 ```
 
+###3.7. Using the API Gateway context
+$context
+```
+$context.identity.sourceIp
+```
+
+```js
+exports.handler = (event, context, callback) => {
+  callback(null, event.myip);
+};
+```
+```py
+def lambda_handler(event, context):
+    return event['myip']
+```
+    
