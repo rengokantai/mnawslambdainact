@@ -147,5 +147,66 @@ A few projects have been developed by the AWS community which you could use to e
 ###### tip
 The only downside I can see in using a live AWS environment for development is that you need a (decent) internet connection, but is that a limitation?  
 
+#### 13.1.1. Developing locally in Node.js
+function greetingOnDemand(Node.js)
+```
+exports.handler = (event,context,cb)=>{
+  JSON.stringify(event,null,2);
+  var name='';
+  if('name' in event){
+    name=event['name']
+  }
+  else{
+    name='k';
+  }
+  var greet = 'hello'+name;
+  cb(null,greet);
+}
+```
+runLocal
+```
+var lambdaFunction = require('./greetingOnDemand');
+var functionHandler = 'handler';
+var event={};
+var context ={};
 
+function callback(err,data){
+  console.log(err);
+  console.log(data);
+}
+lambdaFunction[functionHandler](event,context,callback);
+```
+
+#### 13.1.2. Developing locally in Python
+greetingOnDemand
+```py
+import json
+def lambda_handler(event,context):
+  json.dumps(event,indent=2);
+  if 'name' in event:
+    name=event['name']
+  else:
+    name='k'
+  greet = 'hello'+name;
+  return greet
+```
+
+runlocal.py  
+```py
+import importlib
+mod = importlib.import_module('greetingOnDemand')
+functionHandler = 'lambda_handler'
+lambdaFunction = getattr(mod,functionHandler)
+
+event={'name':'k'}
+context={}
+try:
+    data=lambdaFunction(event,context)
+    print data
+except Exception as error:
+    print error
     
+```
+
+
+
