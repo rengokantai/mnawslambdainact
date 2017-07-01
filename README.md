@@ -1,5 +1,5 @@
 # mnawslambdainact
-##1. Running functions in the cloud
+## 1. Running functions in the cloud
 AWS Lambda implements the execution of those functions with an efficient use of the underlying compute resources that allows for an interesting and innocative cose model.
 With AWS Lambda you pay for 
 - The number of invocations
@@ -121,7 +121,7 @@ To change the default behavior for our REST API, using an #if ... #end block.
 }
 ```
 
-###3.7. Using the API Gateway context
+### 3.7. Using the API Gateway context
 $context
 ```
 $context.identity.sourceIp
@@ -136,4 +136,16 @@ exports.handler = (event, context, callback) => {
 def lambda_handler(event, context):
     return event['myip']
 ```
+
+## 13. Improving development and testing
+### 13.1. Developing locally
+A few projects have been developed by the AWS community which you could use to emulate Amazon S3. For example, FakeS3 is a lightweight server that responds to the same calls that Amazon S3 responds to. Another option is Minio, an Amazon S3–compatible object-storage server. For more information on how to use FakeS3 and Minio, see  
+[fake-s3](https://github.com/jubos/fake-s3)  
+[minio](https://github.com/minio/minio)  
+
+
+###### tip
+The only downside I can see in using a live AWS environment for development is that you need a (decent) internet connection, but is that a limitation?  
+
+
     
