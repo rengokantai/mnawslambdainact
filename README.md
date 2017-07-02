@@ -235,3 +235,11 @@ For example, to use version 3 of a function, you can use a Qualified ARN ending 
 arn:aws:lambda:<REGION>:<ACCOUNT_ID>:function:helloWorld:3
 ```
 
+### 13.4. Using aliases to manage different environments
+For example, the most recent version is probably the one you’re currently working on in the development environment. Before going into production, a function can go through different stages of testing, such as an integration test or a user-acceptance test.  
+
+###### Note
+You cannot use an Unqualified ARN when creating or updating an alias. Only __Qualified ARNs__ are accepted by AWS Lambda in this case.
+
+######
+Starting from the example in figure 13.2, if UI tests on version 3 complete correctly, you may want to move that version into production and start new UI tests for version 4. You can update the alias UITest to point to version 4 and the alias Production to version 3.
