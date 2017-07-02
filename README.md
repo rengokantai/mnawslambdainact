@@ -208,5 +208,30 @@ except Exception as error:
     
 ```
 
+#### 13.1.3. Community tools
+[lambda-local] (https://github.com/ashiina/lambda-local)
+[aws-lambda-python-local](https://github.com/sportarchive/aws-lambda-python-local)
+### 13.2. Logging and debugging
+Each function has a CloudWatch log group with a name starting with ```/aws/lambda/```, 
+followed by the function name. For example:  
+```
+/aws/lambda/greetingsOnDemand
+```
+You can use the AWS CLI to check the logs of your Lambda functions, using the following command example:
+```
+aws logs get-log-events --log-group-name /aws/lambda/<FUNCTION_NAME> --log-stream-name 'YYYY/MM/DD/[$LATEST]...'
+```
 
+An example of an Unqualified ARN for the helloWorld function is the following code:
+```
+arn:aws:lambda:<REGION>:<ACCOUNT_ID>:function:helloWorld
+```
+If you want to be more specific, you can point at the latest version using this Qualified ARN:
+```
+arn:aws:lambda:<REGION>:<ACCOUNT_ID>:function:helloWorld:$LATEST
+```
+For example, to use version 3 of a function, you can use a Qualified ARN ending with “:3”:
+```
+arn:aws:lambda:<REGION>:<ACCOUNT_ID>:function:helloWorld:3
+```
 
