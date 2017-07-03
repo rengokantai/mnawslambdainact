@@ -278,7 +278,93 @@ npm install -g serverless
 create a server (you dont need to create the folder first) (tested, -path/--path will fail)
 ```
 serverless create --template aws-nodejs –p my-service
+serverless deploy
 ```
+invoke function
+```
+serverless invoke --function hello
+```
+remove stack
+```
+serverless remove
+```
+### 13.6. Simple serverless testing
+lambdaTest
+```
+'use strict'
+let AWS = require('aws-sdk');
+let doc = require('dynamodb-doc');
+let lambda = new AWS.Lambda({apiversion:'2015-03-31'});
+let dynamo = new doc.DynamoDB();
+
+const asyncAll = (opts)=>{
+  let i=-1;
+  const next = ()=>{
+    i++;
+    if(i===opts.times){
+      opts.done();
+      return;
+    }
+    opts.fn(next,i);
+  };
+  next();
+}
+
+const unit = (event,cb)=>{
+  const lambdaParams={
+    FunctionName:event.function,
+    Payload:JSON.stringify(event.event);
+  };
+  lambda.invoke(lambdaParams,(err,data)=>{
+    if(err){return cb(err);}
+    const dynamoParams={
+      TableName:event.resultsTable,
+      Item:{
+        testId:event.testId,
+        ieration:event.iteration||0,
+        result:data.Payload,
+        passed:!JSON.parse(data.Payload).hasOwnProperty('errorMessage')
+      }
+  };
+  dynamo.putItem(dynamoParams,cb);
+});
+};
+const load = (event,cb)=>{
+  const payload = event.event;
+  asyncAll({
+    times:event.iterations,
+    fn:(next,i)=>{
+      payload.iteration=i;
+      const lambdaParams={
+        FunctionName:event.function,
+        invocationType:'Event',
+        Payload:JSON.stringify(payload)
+      };
+      lambda.invoke(lambdaParams,(err,data)=>next());
+    },
+    done:()=>cb(null,'complete')
+  });
+};
+
+const ops={
+  unit:unit,
+  load:load
+}
+
+
+exports.handler=(event,context,cb)=>{
+  if(ops.hasOwnProperty(event.operation)){
+    ops[event.operation](event,cb);
+  } else{
+    cb(`${event.operation}`);
+  }
+}
+```
+
+### Exercise
+
+
+
 
 
 
