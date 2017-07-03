@@ -360,6 +360,26 @@ exports.handler=(event,context,cb)=>{
   }
 }
 ```
+To run the unit test, you should pass the following event, specifying all necessary information, as input to the lambdaTest function to execute the test. For example:
+```
+{
+  "operation": "unit",
+  "function": "greetingsOnDemand",
+  "event": { "name": "John" },
+  "resultsTable": "myResultTable",
+  "testId": "myTest123"
+}
+```
+To run a load testing with 50 invocations of the previous functions, you need to change the operation to load and add the number of iterations you need (you don’t need the DynamoDB table anymore). For example:
+```
+{
+  "operation": "load",
+  "iterations": 50,
+  "function": "greetingsOnDemand",
+  "event": { "name": "John" }
+}
+```
+
 
 ### Exercise
 
