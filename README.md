@@ -243,3 +243,43 @@ You cannot use an Unqualified ARN when creating or updating an alias. Only __Qua
 
 ######
 Starting from the example in figure 13.2, if UI tests on version 3 complete correctly, you may want to move that version into production and start new UI tests for version 4. You can update the alias UITest to point to version 4 and the alias Production to version 3.
+
+
+
+
+#### 13.5.1. Chalice Python microframework
+```
+chalice new-project greetingsOnDemand
+cd greetingsOnDemand
+chalice deploy
+```
+
+#### 13.5.2. Apex serverless architecture
+```
+curl https://raw.githubusercontent.com/apex/apex/master/install.sh | sh
+```
+(windows download binary)
+```
+mkdir testapex && cd testapex
+apex init
+apex deploy
+```
+
+test the function
+```
+apex invoke hello
+```
+
+#### 13.5.3. Serverless Framework
+```
+npm install -g serverless
+```
+
+create a server (you dont need to create the folder first) (tested, -path/--path will fail)
+```
+serverless create --template aws-nodejs –p my-service
+```
+
+
+
+
