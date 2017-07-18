@@ -390,18 +390,39 @@ To run a load testing with 50 invocations of the previous functions, you need to
 ## 14. Automating deployment
 ### 14.1. Storing code on Amazon S3
 ```
-aws s3 mb s3://<BUCKET>
-zip -r ../greetingsOnDemand-v1 .
-aws s3 cp greetingsOnDemand-v1.zip s3://<BUCKET>/code/
+aws s3 mb s3://rengolambda
+```
+```
+mkdir ke && cd ke
+```
+```
+cat <<EOF > ke.js
+console.log('Loading function');
+
+exports.handler = (event, context, callback) => {
+    console.log('Received event:',
+        JSON.stringify(event, null, 2));
+    console.log('name =', event.name);
+    var name = '';
+    if ('name' in event) {
+        name = event['name'];
+    } else {
+        name = "World";
+    }
+    var greetings = 'Hello ' + name + '!';
+    console.log(greetings);
+    callback(null, greetings);
+};
+EOF
+```
+(in ke folder)
+```
+zip -r ../ke .
+aws s3 cp ke.zip s3://rengolambda/code/
 ```
 create lambda function
 ```
-aws lambda create-function  \
-    --function-name anotherGreetingsOnDemand \
-    --code S3Bucket=<BUCKET>,S3Key=code/greetingsOnDemand-v1.zip \
-    --runtime nodejs4.3 \
-    ––role arn:aws:iam::123412341234:role/lambda_basic_execution \
-    --handler index.handler
+aws lambda create-function --function-name ke --runtime nodejs4.3 --role arn:aws:iam::886640460405:role/kelambda --code S3Bucket=rengolambda,S3Key=code/ke.zip  --handler index.handler
 ```
 
 ```
