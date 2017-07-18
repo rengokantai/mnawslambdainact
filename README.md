@@ -403,3 +403,12 @@ aws lambda create-function  \
     ––role arn:aws:iam::123412341234:role/lambda_basic_execution \
     --handler index.handler
 ```
+
+```
+aws iam list-roles
+```
+```
+aws lambda update-function-code  \
+    --function-name anotherGreetingsOnDemand  \
+    --s3-bucket <BUCKET> --s3-key code/greetingsOnDemand-v2.zip
+```
