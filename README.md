@@ -388,5 +388,18 @@ To run a load testing with 50 invocations of the previous functions, you need to
 
 
 ## 14. Automating deployment
-
-
+### 14.1. Storing code on Amazon S3
+```
+aws s3 mb s3://<BUCKET>
+zip -r ../greetingsOnDemand-v1 .
+aws s3 cp greetingsOnDemand-v1.zip s3://<BUCKET>/code/
+```
+create lambda function
+```
+aws lambda create-function  \
+    --function-name anotherGreetingsOnDemand \
+    --code S3Bucket=<BUCKET>,S3Key=code/greetingsOnDemand-v1.zip \
+    --runtime nodejs4.3 \
+    ––role arn:aws:iam::123412341234:role/lambda_basic_execution \
+    --handler index.handler
+```
