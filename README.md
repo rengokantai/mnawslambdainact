@@ -428,8 +428,13 @@ aws lambda create-function --function-name ke --runtime nodejs4.3 --role arn:aws
 ```
 aws iam list-roles
 ```
+create ke2.zip
 ```
-aws lambda update-function-code  \
-    --function-name anotherGreetingsOnDemand  \
-    --s3-bucket <BUCKET> --s3-key code/greetingsOnDemand-v2.zip
+zip -r ../ke2 .
+```
+```
+aws s3 cp ke2.zip s3://rengolambda/code/
+```
+```
+aws lambda update-function-code  --function-name ke  --s3-bucket <BUCKET> --s3-key code/ke2.zip
 ```
